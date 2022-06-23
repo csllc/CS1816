@@ -1,2 +1,2 @@
-# rn-cs1816
-Package which provides React-Native compatible communication with CS1816 Bluetooth Dongle
+# CS1816
+Package which provides Communication with CS1816 Bluetooth Dongle
