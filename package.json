@@ -1,5 +1,5 @@
 {
-  "name": "csllc/cs1816",
+  "name": "@csllc/cs1816",
   "version": "1.0.0",
   "description": "Package used to communicate with CS1816-type BLE Dongles",
   "main": "index.js",
