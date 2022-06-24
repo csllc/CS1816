@@ -1,0 +1,27 @@
+{
+  "name": "csllc/cs1816",
+  "version": "1.0.0",
+  "description": "Package used to communicate with CS1816-type BLE Dongles",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test-live": "mocha test/live",
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csllc/CS1816.git"
+  },
+  "author": "Bill Glase (bglase@icloud.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/csllc/CS1816/issues"
+  },
+  "homepage": "https://github.com/csllc/CS1816#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.5.3"
+  }
+}
