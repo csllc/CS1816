@@ -40,7 +40,7 @@ theDongle.initialize(peripheral);
 
 // now you are ready to use the CS1816
 
-````
+```
 
 ## Reading Characteristics
 
@@ -50,7 +50,18 @@ readStringCharacteristic() methods, but it may be simpler to use the readDongleI
 ```js
 let info = await theDongle.readDongleInfo();
 
+```
 
+## Dongle Version Information
+
+The dongle's software version information is available in the object returned by readDongleInfo(). After calling this method, the `softwareRevision` property will also contain multiple representations of the version - a string, scalar, and array of bytes.
+
+```js
+let info = await theDongle.readDongleInfo();
+
+let versionString = theDongle.softwareRevision.string; // "1.10.0"
+let versionScalar = theDongle.softwareRevision.scalar; // 0x010A00
+let versionBytes =  theDongle.softwareRevision.bytes;  // [1, 10, 0] (major, minor, patch)
 ```
 
 ## Configuration and Control of the Dongle
