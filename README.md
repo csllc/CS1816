@@ -114,7 +114,7 @@ watch variables, and then call updateSuperWatcher()
 
 ```js
 
-await theDongle.clearSuperwatcher();
+await theDongle.clearSuperWatcher();
 
 theDongle.superWatch(1, 86, function(data) {
   console.log('superwatch address 86 changed:', data );
@@ -127,7 +127,7 @@ await theDongle.updateSuperWatcher();
 You can also use a common function as a listener, since the address and unit are provided when the value updates:
 ```js
 
-await theDongle.clearSuperwatcher();
+await theDongle.clearSuperWatcher();
 
 function processUpdate( data, address, unit ) {
   console.log('superwatch address ' + address + ' on unit ' + unit + ' changed:', data );
