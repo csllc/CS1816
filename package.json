@@ -3,12 +3,12 @@
   "version": "1.0.3",
   "description": "Package used to communicate with CS1816-type BLE Dongles",
   "main": "index.js",
+  "type": "module",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "test-live": "mocha test/live",
-    "test": "mocha test"
+    "test": "node ./examples/controller.mjs"
   },
   "repository": {
     "type": "git",
@@ -21,8 +21,6 @@
   },
   "homepage": "https://github.com/csllc/CS1816#readme",
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^10.0.0",
-    "noble": "^1.9.1"
+    "@abandonware/noble": "^1.9.2-15"
   }
 }
