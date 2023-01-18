@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/csllc/CS1816#readme",
   "devDependencies": {
-    "@abandonware/noble": "^1.9.2-15"
+    "@abandonware/noble": "^1.9.2-15",
+    "async-promise-pool": "^1.0.6"
   }
 }

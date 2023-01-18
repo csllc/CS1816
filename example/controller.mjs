@@ -2,6 +2,8 @@ import Ble from './Ble.js'
 import Dongle from '../lib/Dongle.js'
 import { DONGLE_UUIDS } from '../lib/DongleUuids.js'
 
+import PromisePool from 'async-promise-pool';
+
 let ble = new Ble();
 let dongle = new Dongle(ble);
 
@@ -28,54 +30,46 @@ ble.once('discover', (peripheral) => {
     return dongle.configure({});
   })
   .then(() => {
-    // Test watchers
+    // Test watchers for Phoenix
 
-    let todo = [];
-    todo.push(dongle.watch(0x01, 0x038, 0x01, (data) => {
+    let pool = new PromisePool({concurrency: 1});
+    pool.add(() => { return dongle.watch(0x01, 0x038, 0x01, (data) => {
       console.log("0x038 (Fault):", data);
-    }));
+    }) });
 
-    todo.push(dongle.watch(0x01, 0x064, 0x02, (data) => {
+    pool.add(() => { return dongle.watch(0x01, 0x064, 0x02, (data) => {
       console.log("0x064 (Battery Voltage):", data);
-    }));
+    }) });
 
-    todo.push(dongle.watch(0x01, 0x05F, 0x01, (data) => {
+    pool.add(() => { return dongle.watch(0x01, 0x05F, 0x01, (data) => {
       console.log("0x05F (Charge State):", data);
-    }));
+    }) });
 
-    todo.push(dongle.watch(0x01, 0x110, 0x02, (data) => {
+    pool.add(() => { return dongle.watch(0x01, 0x110, 0x02, (data) => {
       console.log("0x110 (Voltage):", data);
-    }));
+    }) });
 
-    todo.push(dongle.watch(0x01, 0x113, 0x01, (data) => {
+    pool.add(() => { return dongle.watch(0x01, 0x113, 0x01, (data) => {
       console.log("0x113 (PWM):", data);
-    }));
+    }) });
 
-    todo.push(dongle.watch(0x01, 0x111, 0x01, (data) => {
+    pool.add(() => { return dongle.watch(0x01, 0x111, 0x01, (data) => {
       console.log("0x111 (Board Temperature):", data);
-    }));
+    }) });
 
-    todo.push(dongle.watch(0x01, 0x112, 0x02, (data) => {
+    pool.add(() => { return dongle.watch(0x01, 0x112, 0x02, (data) => {
       console.log("0x112 (Current):", data);
-    }));
+    }) });
 
-    todo.push(dongle.watch(0x01, 0x114, 0x01, (data) => {
+    pool.add(() => { return dongle.watch(0x01, 0x114, 0x01, (data) => {
       console.log("0x114 (Scaled Throttle):", data);
-    }));
+    }) });
 
-    todo.push(dongle.watch(0x01, 0x118, 0x02, (data) => {
-      console.log("0x118 (System State):", data);
-    }));
-
-    todo.push(dongle.watch(0x01, 0x119, 0x02, (data) => {
-      console.log("0x119 (Motor State):", data);
-    }));
-
-    todo.push(dongle.watch(0x01, 0x060, 0x02, (data) => {
+    pool.add(() => { return dongle.watch(0x01, 0x060, 0x02, (data) => {
       console.log("0x060 (Analog Throttle):", data);
-    }));
+    }) });
 
-    return Promise.all(todo);
+    return pool.all();
   })
   .then(() => {
     // Test super-watcher
