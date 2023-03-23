@@ -1,6 +1,5 @@
 import Ble from './Ble.js'
-import Dongle from '../lib/Dongle.js'
-import { DONGLE_UUIDS } from '../lib/DongleUuids.js'
+import { Dongle, serviceUuid } from '../lib/Dongle.js'
 
 import PromisePool from 'async-promise-pool';
 
@@ -32,42 +31,60 @@ ble.once('discover', (peripheral) => {
   .then(() => {
     // Test watchers for Phoenix
 
-    let pool = new PromisePool({concurrency: 1});
-    pool.add(() => { return dongle.watch(0x01, 0x038, 0x01, (data) => {
-      console.log("0x038 (Fault):", data);
-    }) });
+    let pool = new PromisePool({ concurrency: 1 });
+    pool.add(() => {
+      return dongle.watch(0x01, 0x038, 0x01, (data) => {
+        console.log("0x038 (Fault):", data);
+      })
+    });
 
-    pool.add(() => { return dongle.watch(0x01, 0x064, 0x02, (data) => {
-      console.log("0x064 (Battery Voltage):", data);
-    }) });
+    pool.add(() => {
+      return dongle.watch(0x01, 0x064, 0x02, (data) => {
+        console.log("0x064 (Battery Voltage):", data);
+      })
+    });
 
-    pool.add(() => { return dongle.watch(0x01, 0x05F, 0x01, (data) => {
-      console.log("0x05F (Charge State):", data);
-    }) });
+    pool.add(() => {
+      return dongle.watch(0x01, 0x05F, 0x01, (data) => {
+        console.log("0x05F (Charge State):", data);
+      })
+    });
 
-    pool.add(() => { return dongle.watch(0x01, 0x110, 0x02, (data) => {
-      console.log("0x110 (Voltage):", data);
-    }) });
+    pool.add(() => {
+      return dongle.watch(0x01, 0x110, 0x02, (data) => {
+        console.log("0x110 (Voltage):", data);
+      })
+    });
 
-    pool.add(() => { return dongle.watch(0x01, 0x113, 0x01, (data) => {
-      console.log("0x113 (PWM):", data);
-    }) });
+    pool.add(() => {
+      return dongle.watch(0x01, 0x113, 0x01, (data) => {
+        console.log("0x113 (PWM):", data);
+      })
+    });
 
-    pool.add(() => { return dongle.watch(0x01, 0x111, 0x01, (data) => {
-      console.log("0x111 (Board Temperature):", data);
-    }) });
+    pool.add(() => {
+      return dongle.watch(0x01, 0x111, 0x01, (data) => {
+        console.log("0x111 (Board Temperature):", data);
+      })
+    });
 
-    pool.add(() => { return dongle.watch(0x01, 0x112, 0x02, (data) => {
-      console.log("0x112 (Current):", data);
-    }) });
+    pool.add(() => {
+      return dongle.watch(0x01, 0x112, 0x02, (data) => {
+        console.log("0x112 (Current):", data);
+      })
+    });
 
-    pool.add(() => { return dongle.watch(0x01, 0x114, 0x01, (data) => {
-      console.log("0x114 (Scaled Throttle):", data);
-    }) });
+    pool.add(() => {
+      return dongle.watch(0x01, 0x114, 0x01, (data) => {
+        console.log("0x114 (Scaled Throttle):", data);
+      })
+    });
 
-    pool.add(() => { return dongle.watch(0x01, 0x060, 0x02, (data) => {
-      console.log("0x060 (Analog Throttle):", data);
-    }) });
+    pool.add(() => {
+      return dongle.watch(0x01, 0x060, 0x02, (data) => {
+        console.log("0x060 (Analog Throttle):", data);
+      })
+    });
 
     return pool.all();
   })
@@ -76,7 +93,7 @@ ble.once('discover', (peripheral) => {
     return dongle.clearSuperWatcher();
   })
   .then(() => {
-    for (let i = 0; i < 25; i++) {
+    for(let i = 0; i < 25; i++) {
       dongle.superWatch(1, i, (data) => {
         console.log(`Superwatcher ${i.toString(16)}:`, data);
       });
@@ -104,7 +121,10 @@ ble.initialize()
 .then(() => {
   console.log("controller: BLE initialized");
 
-  ble.startScan([DONGLE_UUIDS.uuidControllerService], { allowDuplicates: false });
+  ble.startScan([
+    serviceUuid.toUpperCase().replace(/-/g, ""),
+    serviceUuid.toLowerCase().replace(/-/g, ""),
+    serviceUuid.toUpperCase(),
+    serviceUuid.toLowerCase(),
+  ]);
 });
-
-
