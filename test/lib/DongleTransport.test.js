@@ -11,7 +11,7 @@
 //var BleManager = require('../util/BleShim');
 
 
-describe('DongleTransport LIVE Tests', function() {
+describe('DongleTransport', function() {
 
   // var device;
 

@@ -9,7 +9,7 @@ import sinon from 'sinon';
 
 const expect = chai.expect;
 
-import { Watcher } from '../../../index.js';
+import { Watcher } from '../../index.js';
 
 describe('Watcher Class', function() {
 

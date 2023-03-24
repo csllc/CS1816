@@ -31,7 +31,8 @@ describe('Dongle Tests', function() {
 
     let info = await this.device.readDongleInfo();
 
-    console.log(info);
+    this.logger.info('readDongleInfo %O', info);
+
     expect(info).to.be.an('object');
     expect(info.model).to.be.a('string');
     expect(info.model.substr(0, 2)).to.equal('CS');
@@ -47,7 +48,8 @@ describe('Dongle Tests', function() {
 
     let info = await this.device.readInterface();
 
-    console.log(info);
+    this.logger.info('readInterface %O', info);
+
     expect(info).to.be.an('object');
     expect(info.mode).to.be.a('string');
     expect(info.protocol).to.be.a('string');
@@ -59,18 +61,20 @@ describe('Dongle Tests', function() {
   it('Returns valid softwareVersion', async function() {
 
     let info = this.device.softwareRevision;
-    console.log(info);
+
+    this.logger.info('softwareVersion %O', info);
+
     expect(info).to.be.an('object');
 
     expect(info.string).to.be.a('string');
     expect('info.string').to.have.length.above(0);
 
     expect(info.bytes).to.be.an('object');
-    expect(info.bytes.length).to.have.keys(['major', 'minor', 'patch']);
+    expect(info.bytes).to.have.keys(['major', 'minor', 'patch']);
 
     expect(info.scalar).to.be.a('number');
 
-    expect(info.scalar).to.equal(info.bytes.major << 16 + info.bytes.minor << 8 + info.bytes.patch);
+    expect(info.scalar).to.equal(info.bytes.major * 65536 + info.bytes.minor * 256 + info.bytes.patch);
   });
 
 
@@ -85,32 +89,23 @@ describe('Dongle Tests', function() {
 
     result = await this.device.writeObject(this.device.ID, 0, page);
 
-    console.log('result', result);
-
     expect(result).to.equal(0);
 
     result = await this.device.readObject(this.device.ID, 0);
 
     expect(result).to.be.an('array');
 
-    console.log('Readback', result, page);
     expect(Buffer.from(result)).to.deep.equal(page);
 
     page = Buffer.alloc(128).fill(0x55);
 
-    console.time('Write flash page');
     result = await this.device.writeObject(this.device.ID, 0, page);
-    console.timeEnd('Write flash page');
 
-    console.log('Page successfully written');
 
-    console.time('Read flash page');
     result = await this.device.readObject(this.device.ID, 0);
-    console.timeEnd('Read flash page');
 
     expect(result).to.be.an('array');
 
-    console.log(result, page);
     expect(Buffer.from(result)).to.deep.equal(page);
 
     result = await this.device.writeObject(this.device.ID, 0, original)
@@ -120,10 +115,7 @@ describe('Dongle Tests', function() {
     result = await this.device.readObject(this.device.ID, 0);
     expect(result).to.be.an('array');
 
-    console.log(result, original);
     expect(result).to.deep.equal(original);
-
-
 
   });
 
