@@ -295,6 +295,15 @@ Promise.all(todo)
 
 ```
 
+### Miscellaneous
+
+The CS1816 can issue a Modbus reset command to a connected motor controller that supports the command.
+
+```js
+theDongle.reset(1);
+
+```
+
 ### Logging
 For debug purposes, you can pass a winston-style logger to the constructor: `new Dongle(Ble, { logger: myLogger })`.
 The logs can be filtered by level (eg 'info' or 'warn') or by component (eg 'Dongle', DongleTransport, etc)
